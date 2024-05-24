@@ -253,7 +253,7 @@ impl ZellijPlugin for State {
             Event::PermissionRequestResult(_) => {
                 set_selectable(false);
                 pwd();
-                switch_to_input_mode(&InputMode::Locked);
+                // switch_to_input_mode(&InputMode::Locked);
             }
             _ => {
                 eprintln!("Got unrecognized event: {:?}", event);
