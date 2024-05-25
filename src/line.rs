@@ -151,8 +151,8 @@ fn tab_line_prefix(
     session_directory: String,
 ) -> Vec<LinePart> {
     let mut parts: Vec<LinePart> = vec![LinePart {
-        part: " ".to_string(),
-        len: 1,
+        part: String::default(),
+        len: 0,
         tab_index: None,
     }];
 
@@ -219,19 +219,20 @@ fn tab_line_prefix(
     }
 
     let mode_part = match mode {
-        InputMode::Locked => " ".to_string(),
-        _ => {
-            let mode_string = format!("{:?}", mode);
-            format!(
-                "{} ",
-                mode_string
-                    .chars()
-                    .next()
-                    .unwrap()
-                    .to_uppercase()
-                    .collect::<String>()
-            )
-        }
+        InputMode::Locked => String::from("🔒"),
+        InputMode::Normal => String::from("🏠"),
+        InputMode::Resize => String::from("⛶ "),
+        InputMode::Pane => String::from("🗎 "),
+        InputMode::Tab => String::from("↹ "),
+        InputMode::Scroll => String::from("⇳ "),
+        InputMode::EnterSearch => String::from("🔍"),
+        InputMode::Search => String::from("🔍"),
+        InputMode::RenameTab => String::from("✎ "),
+        InputMode::RenamePane => String::from("?"),
+        InputMode::Session => String::from("S"),
+        InputMode::Move => String::from("✥ "),
+        InputMode::Prompt => String::from("P"),
+        InputMode::Tmux => String::from("T"),
     };
     let mode_part_len = mode_part.width();
     let mode_part_styled_text = match mode {

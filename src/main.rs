@@ -51,15 +51,15 @@ impl UserConfiguration {
         match str.as_str() {
             "fg" => Some(colors.fg),
             "bg" => Some(colors.bg),
-            "black" => Some(colors.black),
             "red" => Some(colors.red),
             "green" => Some(colors.green),
-            "yellow" => Some(colors.yellow),
             "blue" => Some(colors.blue),
+            "yellow" => Some(colors.yellow),
             "magenta" => Some(colors.magenta),
-            "cyan" => Some(colors.cyan),
-            "white" => Some(colors.white),
             "orange" => Some(colors.orange),
+            "cyan" => Some(colors.cyan),
+            "black" => Some(colors.black),
+            "white" => Some(colors.white),
             "gray" => Some(colors.gray),
             "purple" => Some(colors.purple),
             "gold" => Some(colors.gold),
@@ -186,7 +186,7 @@ fn pwd() {
 }
 
 impl ZellijPlugin for State {
-    fn load(&mut self, _configuration: BTreeMap<String, String>) {
+    fn load(&mut self, configuration: BTreeMap<String, String>) {
         request_permission(&[
             PermissionType::ReadApplicationState,
             PermissionType::ChangeApplicationState,
@@ -199,7 +199,7 @@ impl ZellijPlugin for State {
             EventType::PermissionRequestResult,
             EventType::RunCommandResult,
         ]);
-        self.configuration = _configuration;
+        self.configuration = configuration;
     }
 
     fn update(&mut self, event: Event) -> bool {
@@ -284,7 +284,7 @@ impl ZellijPlugin for State {
             all_tabs.push(tab);
         }
         self.tab_line = tab_line(
-            self.mode_info.session_name.clone().unwrap(),
+            self.mode_info.session_name.clone().unwrap_or_default(),
             all_tabs,
             active_tab_index,
             cols.saturating_sub(1),
